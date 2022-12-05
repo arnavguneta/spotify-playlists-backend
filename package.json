@@ -16,8 +16,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/cors": "^2.8.12",
+    "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.14",
+    "@types/express-session": "^1.17.5",
     "@types/node": "^18.11.10",
+    "@types/passport-spotify": "^2.0.1",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
     "eslint": "^8.29.0",
@@ -25,7 +29,12 @@
     "typescript": "^4.9.3"
   },
   "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "mongoose": "^6.7.5"
+    "express-session": "^1.17.3",
+    "mongoose": "^6.7.5",
+    "passport": "^0.6.0",
+    "passport-spotify": "^2.0.0"
   }
 }
