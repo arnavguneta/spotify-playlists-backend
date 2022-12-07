@@ -13,7 +13,7 @@ interface AuthenticationInfo {
 const router: Router = express.Router();
 const SpotifyStrategy = passportSpotify.Strategy;
 
-passport.serializeUser<any, any>((req, user, done) => {
+passport.serializeUser((user, done) => {
     done(undefined, user);
 });
 
@@ -32,7 +32,7 @@ passport.use(
     })
 );
 
-router.get('/',
+router.get('/login',
     passport.authenticate('spotify', <object>{
         scope: [
             'user-read-email',
@@ -57,7 +57,7 @@ router.get('/callback',
             .cookie('accessToken', token, <CookieOptions>{
                 httpOnly: true,
                 expire: new Date(Date.now() + authInfo.expires_in * 1000)
-            }).redirect('/protected');
+            }).redirect('/home');
     }
 );
 

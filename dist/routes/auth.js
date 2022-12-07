@@ -4,7 +4,7 @@ import passportSpotify from 'passport-spotify';
 import jwt from 'jsonwebtoken';
 const router = express.Router();
 const SpotifyStrategy = passportSpotify.Strategy;
-passport.serializeUser((req, user, done) => {
+passport.serializeUser((user, done) => {
     done(undefined, user);
 });
 passport.deserializeUser((user, done) => {
@@ -17,7 +17,7 @@ passport.use(new SpotifyStrategy({
 }, (accessToken, refreshToken, expires_in, profile, done) => {
     return done(undefined, { accessToken, refreshToken, expires_in, profile });
 }));
-router.get('/', passport.authenticate('spotify', {
+router.get('/login', passport.authenticate('spotify', {
     scope: [
         'user-read-email',
         'playlist-read-private',
@@ -33,7 +33,7 @@ router.get('/callback', passport.authenticate('spotify', { failureRedirect: `${p
         .cookie('accessToken', token, {
         httpOnly: true,
         expire: new Date(Date.now() + authInfo.expires_in * 1000)
-    }).redirect('/protected');
+    }).redirect('/home');
 });
 router.get('/logout', (req, res) => {
     return res
