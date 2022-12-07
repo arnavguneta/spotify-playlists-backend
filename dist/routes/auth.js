@@ -25,7 +25,7 @@ router.get('/login', passport.authenticate('spotify', {
     ],
     showDialog: true
 }));
-router.get('/callback', passport.authenticate('spotify', { failureRedirect: `${process.env.API_URL}/home` }), (req, res) => {
+router.get('/callback', passport.authenticate('spotify', { failureRedirect: 'http://localhost:3001/' }), (req, res) => {
     const authInfo = req.user;
     console.log(req.user);
     const token = jwt.sign(authInfo.accessToken, process.env.JWT_SECRET);
@@ -33,7 +33,7 @@ router.get('/callback', passport.authenticate('spotify', { failureRedirect: `${p
         .cookie('accessToken', token, {
         httpOnly: true,
         expire: new Date(Date.now() + authInfo.expires_in * 1000)
-    }).redirect('/home');
+    }).redirect('http://localhost:3001/');
 });
 router.get('/logout', (req, res) => {
     return res

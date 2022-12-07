@@ -45,7 +45,7 @@ router.get('/login',
 
 router.get('/callback',
     passport.authenticate('spotify',
-        { failureRedirect: `${process.env.API_URL}/home` }),
+        { failureRedirect: 'http://localhost:3001/' }),
     (req: Request, res: Response) => {
         const authInfo = <AuthenticationInfo>req.user;
         console.log(req.user);
@@ -57,7 +57,7 @@ router.get('/callback',
             .cookie('accessToken', token, <CookieOptions>{
                 httpOnly: true,
                 expire: new Date(Date.now() + authInfo.expires_in * 1000)
-            }).redirect('/home');
+            }).redirect('http://localhost:3001/');
     }
 );
 
