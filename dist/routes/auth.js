@@ -13,11 +13,11 @@ passport.deserializeUser((user, done) => {
 passport.use(new SpotifyStrategy({
     clientID: process.env.SPOTIFY_CLIENT_ID,
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-    callbackURL: `${process.env.API_URL}/auth/spotify/callback`
+    callbackURL: `${process.env.API_ENDPOINT}/auth/callback`
 }, (accessToken, refreshToken, expires_in, profile, done) => {
     return done(undefined, { accessToken, refreshToken, expires_in, profile });
 }));
-router.get('/spotify', passport.authenticate('spotify', {
+router.get('/', passport.authenticate('spotify', {
     scope: [
         'user-read-email',
         'playlist-read-private',
@@ -25,7 +25,7 @@ router.get('/spotify', passport.authenticate('spotify', {
     ],
     showDialog: true
 }));
-router.get('/spotify/callback', passport.authenticate('spotify', { failureRedirect: `${process.env.API_URL}/home` }), (req, res) => {
+router.get('/callback', passport.authenticate('spotify', { failureRedirect: `${process.env.API_URL}/home` }), (req, res) => {
     const authInfo = req.user;
     console.log(req.user);
     const token = jwt.sign(authInfo.accessToken, process.env.JWT_SECRET);
@@ -34,6 +34,12 @@ router.get('/spotify/callback', passport.authenticate('spotify', { failureRedire
         httpOnly: true,
         expire: new Date(Date.now() + authInfo.expires_in * 1000)
     }).redirect('/protected');
+});
+router.get('/logout', (req, res) => {
+    return res
+        .clearCookie('accessToken')
+        .status(200)
+        .json({ message: 'Successfully logged out' });
 });
 export default router;
 export { passport };

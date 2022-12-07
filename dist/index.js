@@ -1,9 +1,9 @@
 import express from 'express';
-import authRouter, { passport } from './routes/auth.js';
 import session from 'express-session';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import authMiddleware from './middleware/auth.js';
+import authRouter, { passport } from './routes/auth.js';
+import userRouter from './routes/user.js';
 const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(session({
@@ -14,11 +14,9 @@ app.use(session({
 app.use(cors());
 app.use(cookieParser());
 app.use(passport.initialize());
-app.use(`${process.env.API_URL}/auth`, authRouter);
+app.use(`${process.env.API_ENDPOINT}/auth`, authRouter);
+app.use(`${process.env.API_ENDPOINT}/user`, userRouter);
 app.get('/home', (req, res) => {
-    res.send('hi');
-});
-app.get('/protected', authMiddleware, (req, res) => {
     res.send('hi');
 });
 app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
