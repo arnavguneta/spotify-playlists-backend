@@ -48,7 +48,6 @@ router.get('/callback',
         { failureRedirect: 'http://localhost:3000/' }),
     (req: Request, res: Response) => {
         const authInfo = <AuthenticationInfo>req.user;
-        console.log(req.user);
         const token = jwt.sign(
             authInfo.accessToken,
             <string>process.env.JWT_SECRET
