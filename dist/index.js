@@ -15,19 +15,21 @@ app.use(session({
     saveUninitialized: true
 }));
 app.use(cors({
-    origin: ['http://localhost:3000'],
+    origin: ['http://localhost:3000', 'https://arnav.guneta.com'],
     credentials: true,
 }));
 app.use(cookieParser());
 app.use(passport.initialize());
-app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.static(path.join(__dirname, '../public/build')));
+// REST API
 app.use(`${process.env.API_ENDPOINT}/auth`, authRouter);
 app.use(`${process.env.API_ENDPOINT}/user`, userRouter);
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../build/index.html'));
-});
-app.get('/home', (req, res) => {
-    res.send('hi');
+// React
+app.get('*', (req, res) => {
+    res.writeHead(302, {
+        'Location': '/projects/spotify-app/'
+    });
+    res.end();
 });
 app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
 //# sourceMappingURL=index.js.map
