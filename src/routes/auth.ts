@@ -45,7 +45,7 @@ router.get('/login',
 
 router.get('/callback',
     passport.authenticate('spotify',
-        { failureRedirect: 'http://localhost:3000/' }),
+        { failureRedirect: 'https://arnav.guneta.com/projects/spotify-app/' }),
     (req: Request, res: Response) => {
         const authInfo = <AuthenticationInfo>req.user;
         const token = jwt.sign(
@@ -58,7 +58,7 @@ router.get('/callback',
                 expire: new Date(Date.now() + authInfo.expires_in * 1000),
                 secure: true,
                 sameSite: 'none'
-            }).redirect('http://localhost:3000/');
+            }).redirect('https://arnav.guneta.com/projects/spotify-app/');
     }
 );
 
