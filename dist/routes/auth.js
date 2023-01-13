@@ -13,7 +13,9 @@ passport.deserializeUser((user, done) => {
 passport.use(new SpotifyStrategy({
     clientID: process.env.SPOTIFY_CLIENT_ID,
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-    callbackURL: `${process.env.API_ENDPOINT}/auth/callback`
+    callbackURL: `${(process.env.NODE_ENV === 'prod')
+        ? '/projects/spotify-app' + process.env.API_ENDPOINT
+        : process.env.API_ENDPOINT}/auth/callback`
 }, (accessToken, refreshToken, expires_in, profile, done) => {
     return done(undefined, { accessToken, refreshToken, expires_in, profile });
 }));
