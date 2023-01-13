@@ -27,7 +27,6 @@ router.get('/login', passport.authenticate('spotify', {
 }));
 router.get('/callback', passport.authenticate('spotify', { failureRedirect: 'http://localhost:3000/' }), (req, res) => {
     const authInfo = req.user;
-    console.log(req.user);
     const token = jwt.sign(authInfo.accessToken, process.env.JWT_SECRET);
     return res
         .cookie('accessToken', token, {
