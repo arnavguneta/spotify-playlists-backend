@@ -3,7 +3,11 @@ import passport from 'passport';
 import passportSpotify from 'passport-spotify';
 import jwt from 'jsonwebtoken';
 
-interface AuthenticationInfo {
+const PROJECT_URL = ((process.env.NODE_ENV === 'prod')
+    ? process.env.PROD_PROJECT_URL
+    : process.env.DEV_PROJECT_URL) || '';
+
+    interface AuthenticationInfo {
     accessToken: string,
     refreshToken: string,
     expires_in: number,
@@ -25,9 +29,7 @@ passport.use(
     new SpotifyStrategy({
         clientID: <string>process.env.SPOTIFY_CLIENT_ID,
         clientSecret: <string>process.env.SPOTIFY_CLIENT_SECRET,
-        callbackURL: `${(process.env.NODE_ENV === 'prod')
-                ? '/projects/spotify-app' + process.env.API_ENDPOINT
-                : process.env.API_ENDPOINT}/auth/callback`
+        callbackURL: `${PROJECT_URL}${process.env.API_ENDPOINT}/auth/callback`
     }, (accessToken, refreshToken, expires_in, profile, done) => {
         return done(undefined,
             { accessToken, refreshToken, expires_in, profile });
@@ -47,7 +49,7 @@ router.get('/login',
 
 router.get('/callback',
     passport.authenticate('spotify',
-        { failureRedirect: 'https://arnav.guneta.com/projects/spotify-app/' }),
+        { failureRedirect: 'https://arnav.guneta.com/projects/spotify-app' }),
     (req: Request, res: Response) => {
         const authInfo = <AuthenticationInfo>req.user;
         const token = jwt.sign(
@@ -60,7 +62,7 @@ router.get('/callback',
                 expire: new Date(Date.now() + authInfo.expires_in * 1000),
                 secure: true,
                 sameSite: 'none'
-            }).redirect('https://arnav.guneta.com/projects/spotify-app/');
+            }).redirect('https://arnav.guneta.com/projects/spotify-app');
     }
 );
 
@@ -73,3 +75,6 @@ router.get('/logout', (req: Request, res: Response) => {
 
 export default router;
 export { passport };
+
+// http://localhost:3000
+// https://arnav.guneta.com/projects/spotify-app
