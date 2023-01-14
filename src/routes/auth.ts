@@ -7,7 +7,9 @@ const PROJECT_URL = ((process.env.NODE_ENV === 'prod')
     ? process.env.PROD_PROJECT_URL
     : process.env.DEV_PROJECT_URL) || '';
 
-    interface AuthenticationInfo {
+console.log({PROJECT_URL});
+
+interface AuthenticationInfo {
     accessToken: string,
     refreshToken: string,
     expires_in: number,

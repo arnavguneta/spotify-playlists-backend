@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 const PROJECT_URL = ((process.env.NODE_ENV === 'prod')
     ? process.env.PROD_PROJECT_URL
     : process.env.DEV_PROJECT_URL) || '';
+console.log({ PROJECT_URL });
 const router = express.Router();
 const SpotifyStrategy = passportSpotify.Strategy;
 passport.serializeUser((user, done) => {
