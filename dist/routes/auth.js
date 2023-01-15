@@ -38,7 +38,7 @@ router.get('/callback', passport.authenticate('spotify', { failureRedirect: FRON
         expire: new Date(Date.now() + authInfo.expires_in * 1000),
         secure: true,
         sameSite: 'none'
-    }).redirect(`${FRONTEND}/library`);
+    }).redirect(`${FRONTEND}`);
 });
 router.get('/logout', (req, res) => {
     return res
