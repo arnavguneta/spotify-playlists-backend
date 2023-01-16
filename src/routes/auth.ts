@@ -56,7 +56,7 @@ router.get('/callback',
                 expire: new Date(Date.now() + authInfo.expires_in * 1000),
                 secure: true,
                 sameSite: 'none'
-            }).redirect(`${FRONTEND}/library`);
+            }).redirect(FRONTEND);
     }
 );
 
