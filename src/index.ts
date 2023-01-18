@@ -37,10 +37,6 @@ app.get('/*', (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, '../public/index.html'), err => {
         if (err) res.status(500).send(err);
       });
-    // res.writeHead(302, {
-    //     'Location': '/projects/spotify-app/'
-    // });
-    // res.end();
 });
 
 app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
