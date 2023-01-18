@@ -34,7 +34,7 @@ app.use(`${process.env.API_ENDPOINT}/user`, userRouter);
 
 // React
 app.get('/*', (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, '/public/index.html'), err => {
+    res.sendFile(path.join(__dirname, '../public/index.html'), err => {
         if (err) res.status(500).send(err);
       });
     // res.writeHead(302, {

@@ -26,7 +26,7 @@ app.use(`${process.env.API_ENDPOINT}/auth`, authRouter);
 app.use(`${process.env.API_ENDPOINT}/user`, userRouter);
 // React
 app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, '/public/index.html'), err => {
+    res.sendFile(path.join(__dirname, '../public/index.html'), err => {
         if (err)
             res.status(500).send(err);
     });
