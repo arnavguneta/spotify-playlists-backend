@@ -1,4 +1,4 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Application } from 'express';
 import session from 'express-session';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -26,18 +26,18 @@ app.use(cors({
 }));
 app.use(cookieParser());
 app.use(passport.initialize());
-app.use(express.static(path.join(__dirname, '../public/build')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 // REST API
 app.use(`${process.env.API_ENDPOINT}/auth`, authRouter);
 app.use(`${process.env.API_ENDPOINT}/user`, userRouter);
 
 // React
-app.get('*', (req: Request, res: Response) => {
-    res.writeHead(302, {
-        'Location': '/projects/spotify-app/'
-    });
-    res.end();
-});
+// app.get('/', (req: Request, res: Response) => {
+//     res.writeHead(302, {
+//         'Location': '/projects/spotify-app/'
+//     });
+//     res.end();
+// });
 
 app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
