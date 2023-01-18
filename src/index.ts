@@ -1,4 +1,4 @@
-import express, { Application } from 'express';
+import express, { Application, Request, Response } from 'express';
 import session from 'express-session';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -33,11 +33,14 @@ app.use(`${process.env.API_ENDPOINT}/auth`, authRouter);
 app.use(`${process.env.API_ENDPOINT}/user`, userRouter);
 
 // React
-// app.get('/', (req: Request, res: Response) => {
-//     res.writeHead(302, {
-//         'Location': '/projects/spotify-app/'
-//     });
-//     res.end();
-// });
+app.get('/*', (req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, '/public/index.html'), err => {
+        if (err) res.status(500).send(err);
+      });
+    // res.writeHead(302, {
+    //     'Location': '/projects/spotify-app/'
+    // });
+    // res.end();
+});
 
 app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
