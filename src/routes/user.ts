@@ -1,6 +1,7 @@
 import express, { Router, Request, Response } from 'express';
 import authMiddleware from '../middleware/auth.js';
 import fetch from 'node-fetch';
+import { PlaylistResponse } from '../common/types.js';
 
 const router: Router = express.Router();
 
@@ -25,8 +26,8 @@ router.get('/playlists', authMiddleware,
                 'Authorization': `Bearer ${req.accessToken}`
             }
         });
-        const profileData = await profileResponse.json();
-        res.status(profileResponse.status).json(profileData);
+        const profileData = <PlaylistResponse> await profileResponse.json();
+        res.status(profileResponse.status).json(profileData.items);
     }
 );
 

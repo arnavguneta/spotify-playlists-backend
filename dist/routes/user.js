@@ -18,7 +18,7 @@ router.get('/playlists', authMiddleware, async (req, res) => {
         }
     });
     const profileData = await profileResponse.json();
-    res.status(profileResponse.status).json(profileData);
+    res.status(profileResponse.status).json(profileData.items);
 });
 export default router;
 //# sourceMappingURL=user.js.map
