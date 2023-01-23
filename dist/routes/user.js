@@ -11,14 +11,5 @@ router.get('/', authMiddleware, async (req, res) => {
     const profileData = await profileResponse.json();
     res.status(profileResponse.status).json(profileData);
 });
-router.get('/playlists', authMiddleware, async (req, res) => {
-    const profileResponse = await fetch(`${process.env.SPOTIFY_API_URL}/me/playlists`, {
-        headers: {
-            'Authorization': `Bearer ${req.accessToken}`
-        }
-    });
-    const profileData = await profileResponse.json();
-    res.status(profileResponse.status).json(profileData.items);
-});
 export default router;
 //# sourceMappingURL=user.js.map

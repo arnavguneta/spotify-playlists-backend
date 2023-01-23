@@ -4,6 +4,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import authRouter, { passport } from './routes/auth.js';
 import userRouter from './routes/user.js';
+import spotifyRouter from './routes/spotify.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 const PORT = process.env.PORT || 5000;
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 // REST API
 app.use(`${process.env.API_ENDPOINT}/auth`, authRouter);
 app.use(`${process.env.API_ENDPOINT}/user`, userRouter);
+app.use(`${process.env.API_ENDPOINT}/spotify`, spotifyRouter);
 // React
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/index.html'), err => {

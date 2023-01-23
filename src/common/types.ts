@@ -14,19 +14,13 @@ export interface ApiResponse {
   total: number
 }
 
-export interface PlaylistItems {
+export interface PlaylistItem {
   collaborative: boolean,
   description: string | null,
-  external_urls: {
-    spotify: string
-  },
+  external_urls: ExternalUrl,
   href: string,
   id: string,
-  images: Array<{
-    height: number,
-    url: string,
-    width: number
-  }> | [],
+  images: Image,
   name: string,
   owner: object,
   public: boolean,
@@ -39,11 +33,43 @@ export interface PlaylistItems {
   uri: string
 }
 
+
+export interface Track {
+  album: {
+    external_urls: ExternalUrl,
+    id: string,
+    images: Image,
+    name: string
+  },
+  artists: Array<{
+    id: string,
+    name: string
+    external_urls: ExternalUrl,
+  }>,
+  duration_ms: number,
+  explicit: boolean,
+  external_urls: ExternalUrl,
+  id: string,
+  name: string
+}
+
+export interface TrackItem {
+  added_at: string,
+  track: Track;
+}
+
 export interface PlaylistResponse extends ApiResponse {
-  items: Array<PlaylistItems>
+  items: Array<PlaylistItem>
+}
+
+export interface TrackResponse extends ApiResponse {
+  items: Array<TrackItem>
 }
 
 export enum UrlType {
   Backend = 5000,
   Frontend = 3000
 }
+
+export type Image = Array<{ height: number, url: string, width: number }> | [];
+export type ExternalUrl = { spotify: string }
