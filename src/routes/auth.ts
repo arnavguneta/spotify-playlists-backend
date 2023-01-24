@@ -25,8 +25,11 @@ passport.use(
         clientSecret: <string>process.env.SPOTIFY_CLIENT_SECRET,
         callbackURL: `${BACKEND}${process.env.API_ENDPOINT}/auth/callback`
     }, (accessToken, refreshToken, expires_in, profile, done) => {
-        return done(undefined,
-            { accessToken, refreshToken, expires_in, profile });
+        process.nextTick(function () {
+            return done(undefined,
+                { accessToken, refreshToken, expires_in, profile });
+        });
+
     })
 );
 

@@ -19,7 +19,9 @@ passport.use(new SpotifyStrategy({
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
     callbackURL: `${BACKEND}${process.env.API_ENDPOINT}/auth/callback`
 }, (accessToken, refreshToken, expires_in, profile, done) => {
-    return done(undefined, { accessToken, refreshToken, expires_in, profile });
+    process.nextTick(function () {
+        return done(undefined, { accessToken, refreshToken, expires_in, profile });
+    });
 }));
 router.get('/login', passport.authenticate('spotify', {
     scope: [
@@ -30,20 +32,15 @@ router.get('/login', passport.authenticate('spotify', {
     showDialog: true
 }));
 router.get('/callback', passport.authenticate('spotify', { failureRedirect: FRONTEND }), (req, res) => {
-    try {
-        const authInfo = req.user;
-        const token = jwt.sign(authInfo.accessToken, process.env.JWT_SECRET);
-        return res
-            .cookie('accessToken', token, {
-            httpOnly: true,
-            expire: new Date(Date.now() + authInfo.expires_in * 1000),
-            secure: true,
-            sameSite: 'none'
-        }).redirect(FRONTEND);
-    }
-    catch {
-        console.log('Errored');
-    }
+    const authInfo = req.user;
+    const token = jwt.sign(authInfo.accessToken, process.env.JWT_SECRET);
+    return res
+        .cookie('accessToken', token, {
+        httpOnly: true,
+        expire: new Date(Date.now() + authInfo.expires_in * 1000),
+        secure: true,
+        sameSite: 'none'
+    }).redirect(FRONTEND);
 });
 router.get('/logout', (req, res) => {
     return res

@@ -16,7 +16,6 @@ const getClientCreds = async () => {
     const response = await fetch(api, authOptions);
     if (response.ok) {
         const data = await response.json();
-        console.log(data.access_token);
         return data.access_token;
     }
     else {
@@ -27,7 +26,6 @@ const getClientCreds = async () => {
 const clientAuth = async (req, res, next) => {
     let token = req.cookies.accessToken;
     try {
-        console.log(token);
         if (!token)
             token = await getClientCreds();
         else {
@@ -38,8 +36,6 @@ const clientAuth = async (req, res, next) => {
         next();
     }
     catch (error) {
-        console.log(error);
-        console.log('here');
         res.status(403).send({ error: 'Unauthorized' });
     }
 };
