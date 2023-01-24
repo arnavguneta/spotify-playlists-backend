@@ -5,6 +5,12 @@ export interface AuthenticationInfo {
   profile: object
 }
 
+export interface Credentials {
+  access_token: string,
+  expires_in: number,
+  token_type: 'Bearer'
+}
+
 export interface ApiResponse {
   href: string,
   limit: number,
@@ -32,7 +38,6 @@ export interface PlaylistItem {
   type: string,
   uri: string
 }
-
 
 export interface Track {
   album: {

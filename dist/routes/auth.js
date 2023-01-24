@@ -30,15 +30,20 @@ router.get('/login', passport.authenticate('spotify', {
     showDialog: true
 }));
 router.get('/callback', passport.authenticate('spotify', { failureRedirect: FRONTEND }), (req, res) => {
-    const authInfo = req.user;
-    const token = jwt.sign(authInfo.accessToken, process.env.JWT_SECRET);
-    return res
-        .cookie('accessToken', token, {
-        httpOnly: true,
-        expire: new Date(Date.now() + authInfo.expires_in * 1000),
-        secure: true,
-        sameSite: 'none'
-    }).redirect(FRONTEND);
+    try {
+        const authInfo = req.user;
+        const token = jwt.sign(authInfo.accessToken, process.env.JWT_SECRET);
+        return res
+            .cookie('accessToken', token, {
+            httpOnly: true,
+            expire: new Date(Date.now() + authInfo.expires_in * 1000),
+            secure: true,
+            sameSite: 'none'
+        }).redirect(FRONTEND);
+    }
+    catch {
+        console.log('Errored');
+    }
 });
 router.get('/logout', (req, res) => {
     return res

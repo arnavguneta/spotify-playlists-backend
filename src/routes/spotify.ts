@@ -1,7 +1,8 @@
 import express, { Router, Request, Response } from 'express';
-import authMiddleware from '../middleware/auth.js';
 import fetch from 'node-fetch';
 import { PlaylistResponse, TrackResponse } from '../common/types.js';
+import clientAuth from '../middleware/clientCreds.js';
+import authMiddleware from '../middleware/auth.js';
 
 const router: Router = express.Router();
 
@@ -18,7 +19,7 @@ router.get('/me/playlists', authMiddleware,
   }
 );
 
-router.get('/playlists/:id/tracks', authMiddleware,
+router.get('/playlists/:id/tracks', clientAuth,
   async (req: Request, res: Response) => {
     const response = await fetch(
       // eslint-disable-next-line max-len
@@ -33,7 +34,7 @@ router.get('/playlists/:id/tracks', authMiddleware,
 );
 
 
-router.get('/playlists/:id/', authMiddleware,
+router.get('/playlists/:id/', clientAuth,
   async (req: Request, res: Response) => {
     const response = await fetch(
       // eslint-disable-next-line max-len
